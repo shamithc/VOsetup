@@ -1,91 +1,43 @@
 package com.jocata.MPdemo.vo.investoronboarding.common;
 
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.jocata.MPdemo.vo.investoronboarding.cooperate.decleration.*;
 import com.jocata.MPdemo.vo.investoronboarding.individual.DeclarationDetails;
+import com.jocata.MPdemo.vo.investoronboarding.individual.IndividualDeclarations;
 import com.jocata.MPdemo.vo.investoronboarding.individual.JointAccountDeclaration;
 
 import java.util.Arrays;
 import java.util.StringJoiner;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = IndividualDeclarations.class, name = "INCOME"),
+        @JsonSubTypes.Type(value = IndividualDeclarations.class, name = "ASSET"),
+        @JsonSubTypes.Type(value = IndividualDeclarations.class, name = "JOINT_ACCOUNT"),
+        @JsonSubTypes.Type(value = CooperateDeclarations.class, name = "NET_ASSET"),
+        @JsonSubTypes.Type(value = CooperateDeclarations.class, name = "SHARE_OWNERSHIP"),
+        @JsonSubTypes.Type(value = CooperateDeclarations.class, name = "PARTNERS"),
+        @JsonSubTypes.Type(value = CooperateDeclarations.class, name = "TRUST_PROPERTY"),
+        @JsonSubTypes.Type(value = CooperateDeclarations.class, name = "BENEFECIARIES"),
+        @JsonSubTypes.Type(value = CooperateDeclarations.class, name = "SETTLERS")
+})
 public class Declarations {
-    private PartnersDeclaration partnersDeclaration;
-    private String total;
-    private CorpNetAsset corpNetAsset;
-    private DeclarationDetails[] declarationDetails;
-    private TrustProperty trustProperty;
-    private JointAccountDeclaration jointAccountDeclaration;
-    private Currency currency;
-    private ShareHolder shareHolder;
     private String type;
-    private Beneficiaries beneficiaries;
-    private Settlers settlers;
+    private String total;
+    private Currency currency;
 
     public Declarations() {
     }
 
-    public PartnersDeclaration getPartnersDeclaration() {
-        return partnersDeclaration;
-    }
-
-    public void setPartnersDeclaration(PartnersDeclaration partnersDeclaration) {
-        this.partnersDeclaration = partnersDeclaration;
-    }
-
-    public String getTotal() {
-        return total;
-    }
-
-    public void setTotal(String total) {
+    protected Declarations(String type, String total, Currency currency) {
+        this.type = type;
         this.total = total;
-    }
-
-    public CorpNetAsset getCorpNetAsset() {
-        return corpNetAsset;
-    }
-
-    public void setCorpNetAsset(CorpNetAsset corpNetAsset) {
-        this.corpNetAsset = corpNetAsset;
-    }
-
-    public DeclarationDetails[] getDeclarationDetails() {
-        return declarationDetails;
-    }
-
-    public void setDeclarationDetails(DeclarationDetails[] declarationDetails) {
-        this.declarationDetails = declarationDetails;
-    }
-
-    public TrustProperty getTrustProperty() {
-        return trustProperty;
-    }
-
-    public void setTrustProperty(TrustProperty trustProperty) {
-        this.trustProperty = trustProperty;
-    }
-
-    public JointAccountDeclaration getJointAccountDeclaration() {
-        return jointAccountDeclaration;
-    }
-
-    public void setJointAccountDeclaration(JointAccountDeclaration jointAccountDeclaration) {
-        this.jointAccountDeclaration = jointAccountDeclaration;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
         this.currency = currency;
-    }
-
-    public ShareHolder getShareHolder() {
-        return shareHolder;
-    }
-
-    public void setShareHolder(ShareHolder shareHolder) {
-        this.shareHolder = shareHolder;
     }
 
     public String getType() {
@@ -96,36 +48,19 @@ public class Declarations {
         this.type = type;
     }
 
-    public Beneficiaries getBeneficiaries() {
-        return beneficiaries;
+    public String getTotal() {
+        return total;
     }
 
-    public void setBeneficiaries(Beneficiaries beneficiaries) {
-        this.beneficiaries = beneficiaries;
+    public void setTotal(String total) {
+        this.total = total;
     }
 
-    public Settlers getSettlers() {
-        return settlers;
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setSettlers(Settlers settlers) {
-        this.settlers = settlers;
-    }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Declarations.class.getSimpleName() + "[", "]")
-                .add("partnersDeclaration=" + partnersDeclaration)
-                .add("total='" + total + "'")
-                .add("corpNetAsset=" + corpNetAsset)
-                .add("declarationDetails=" + Arrays.toString(declarationDetails))
-                .add("trustProperty=" + trustProperty)
-                .add("jointAccountDeclaration=" + jointAccountDeclaration)
-                .add("currency=" + currency)
-                .add("shareHolder=" + shareHolder)
-                .add("type='" + type + "'")
-                .add("beneficiaries=" + beneficiaries)
-                .add("settlers=" + settlers)
-                .toString();
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }
